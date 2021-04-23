@@ -45,6 +45,11 @@ use Cake\Routing\RouteBuilder;
 $routes->setRouteClass(DashedRoute::class);
 
 $routes->scope('/', function (RouteBuilder $builder) {
+    $provider = new \App\Provider\AuthenticationProvider();
+    $middleware = new \Authentication\Middleware\AuthenticationMiddleware($provider);
+    $builder->registerMiddleware('auth', $middleware);
+    $builder->applyMiddleware('auth');
+
     /*
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
